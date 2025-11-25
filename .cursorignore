@@ -1,0 +1,14 @@
+# node_modules
+# dist
+# coverage
+# build
+# .git
+# .env
+# .env.*
+# logs
+# tmp
+# cache
+# .cursor
+# .cursorignore
+# .cursorrules
+# .cursorignore

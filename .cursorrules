@@ -1,0 +1,60 @@
+{
+    "rules": [
+        {
+            "pattern": "**/*.ts",
+            "instructions": [
+                "Before writing any code, ALWAYS read /docs/architecture.md.",
+                "Follow the NestJS production modular monolithic architecture strictly.",
+                "Ensure the code aligns with required folder structure, naming conventions, and layering rules.",
+                "Controllers must handle routing only.",
+                "Services must contain business logic only and must not contain DB queries.",
+                "Repositories must contain all database operations.",
+                "All environment usage must go through ConfigModule, never process.env.",
+                "DTOs must always use class-validator + class-transformer.",
+                "Create files only in the appropriate module folder as defined in architecture.md.",
+                "If the user asks for something that violates the architecture, STOP and warn them."
+            ]
+        },
+        {
+            "pattern": "src/modules/**",
+            "instructions": [
+                "Each module must contain: controller, service, module, dto/, repository/, entities/, interfaces/, constants file.",
+                "Use PascalCase for classes, kebab-case for files, camelCase for variables.",
+                "When generating new modules, auto-create the folder structure: dto/, repository/, entities/, interfaces/."
+            ]
+        },
+        {
+            "pattern": "src/config/**",
+            "instructions": [
+                "Ensure environment variable validation is consistent with validation.schema.ts.",
+                "Expose configuration only via ConfigService.",
+                "Never hardcode environment values inside the code."
+            ]
+        },
+        {
+            "pattern": "src/jobs/**",
+            "instructions": [
+                "Queue definitions must be in queues/, processors in processors/.",
+                "Services enqueue jobs; processors handle job logic."
+            ]
+        },
+        {
+            "pattern": "src/integrations/**",
+            "instructions": [
+                "External service integrations must be isolated.",
+                "Never mix external service code inside modules.",
+                "Use provider-based integration patterns."
+            ]
+        }
+    ],
+    "prompts": [
+        {
+            "name": "architecture_guard",
+            "prompt": "Before writing any code, you MUST check the contents of /docs/architecture.md. If the request violates the architecture, warn the user and rewrite the solution in a compliant way."
+        },
+        {
+            "name": "create_module",
+            "prompt": "When asked to create a new NestJS module, automatically generate the folder structure: src/modules/<name>/{dto,entities,repository,interfaces}/ and include <name>.module.ts, <name>.service.ts, <name>.controller.ts, <name>.constants.ts. Use production ready NestJS style."
+        }
+    ]
+}
