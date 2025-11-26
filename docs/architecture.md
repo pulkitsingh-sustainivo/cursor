@@ -25,51 +25,11 @@ This document defines the architecture for our NestJS application. All code must
 
 ## Project Structure
 
-```
-src/
-├── modules/                    # Feature modules (domain-driven)
-│   ├── [feature-name]/
-│   │   ├── [feature-name].module.ts
-│   │   ├── [feature-name].controller.ts
-│   │   ├── [feature-name].service.ts
-│   │   ├── [feature-name].constants.ts
-│   │   ├── dto/                # Data Transfer Objects
-│   │   │   ├── create-[feature-name].dto.ts
-│   │   │   ├── update-[feature-name].dto.ts
-│   │   │   ├── [feature-name]-query.dto.ts
-│   │   │   └── [feature-name]-response.dto.ts
-│   │   ├── entities/          # TypeORM entities
-│   │   │   └── [feature-name].entity.ts
-│   │   ├── repository/         # Data access layer
-│   │   │   ├── [feature-name].repository.ts
-│   │   │   └── interfaces/
-│   │   │       └── [feature-name]-repository.interface.ts
-│   │   ├── interfaces/        # Module-specific interfaces
-│   │   │   └── [feature-name].interface.ts
-│   │   └── [feature-name].spec.ts  # Unit tests
-│   └── ...
-├── shared/                     # Shared utilities across modules
-│   ├── decorators/            # Custom decorators
-│   ├── guards/                # Authentication/authorization guards
-│   ├── interceptors/          # Request/response interceptors
-│   ├── pipes/                 # Validation/transformation pipes
-│   ├── filters/               # Exception filters
-│   ├── interfaces/            # Shared interfaces
-│   ├── constants/             # Application constants
-│   └── utils/                 # Utility functions
-├── config/                     # Configuration files
-│   ├── database.config.ts
-│   ├── app.config.ts
-│   ├── validation.config.ts
-│   └── validation.schema.ts   # Joi validation schema
-├── common/                     # Common base classes
-│   ├── base.entity.ts
-│   └── base.service.ts
-├── app.module.ts               # Root application module
-└── main.ts                     # Application entry point
-```
+- default nestjs project steup
 
 ## Module Structure
+
+- default nestjs project setup
 
 ### Module Organization Rules
 
@@ -409,17 +369,7 @@ export class FeatureQueryDto {
 
 #### `config/validation.schema.ts`
 
-```typescript
-import * as Joi from 'joi';
-
-export const validationSchema = Joi.object({
-  NODE_ENV: Joi.string().valid('development', 'production', 'test').required(),
-  PORT: Joi.number().default(3000),
-  DB_HOST: Joi.string().required(),
-  DB_PORT: Joi.number().default(5432),
-  // ... other validations
-});
-```
+- validate schema using class-validator
 
 #### `config/app.config.ts`
 
@@ -481,20 +431,6 @@ async findAll(query: QueryDto) {
 - Use global exception filter
 - Transform errors to consistent format
 - Log errors appropriately
-
-### Service Error Handling
-
-```typescript
-try {
-  // Operation
-} catch (error) {
-  this.logger.error('Error message', error.stack);
-  if (error instanceof EntityNotFoundError) {
-    throw new NotFoundException('Resource not found');
-  }
-  throw new InternalServerErrorException('Operation failed');
-}
-```
 
 ## Logging
 

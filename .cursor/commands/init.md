@@ -1,10 +1,12 @@
 # Initialize Production-Level NestJS Project
 
-When this file is referenced with `@.cursor/commands/init.md`, create a complete production-ready NestJS application with the following structure and files.
+When this file is referenced with 
+<!-- `@.cursor/commands/init.md`, -->
+create a NestJS bolerplate using the cli command npm i -g @nestjs/cli and then nest new project-name.
 
 ## Project Structure
 
-- default nestjs folder structure
+- default nestjs folder structure using the command npm i -g @nestjs/cli
 
 ## Module Template Structure
 
