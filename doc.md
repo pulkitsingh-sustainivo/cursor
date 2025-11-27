@@ -6,6 +6,20 @@
       The objective is to help developers and teams produce clean, maintainable, enterprise-ready applications using Cursor’s AI-assisted workflows.
       This document covers everything from modular backend architecture, TypeORM patterns, DTO rules, config module design, and queue systems, to testing suites, deployment concepts, and automation rules. Whether you're building a monolith or microservices, this serves as a consistent reference for structuring your application in production.
 
+
+## Overview
+
+- Faster development
+- Consistent codebase
+- Predictable folder structure
+- Easier onboarding
+- Cleaner APIs
+- More secure apps
+- Infra + Dockerization makes deployment repeatable
+
+### Goal:
+“NestJS project should be written using our standards — DTOs, entities, guards, filters, interceptors, Docker, Compose, and infrastructure.”
+
 ### Folder Structures
 
 #### Modular
@@ -321,7 +335,7 @@ Rules:
 * No hardcoded environment variables inside the Dockerfile
 * Build must be reproducible and deterministic
 
-## ### Cursor Prompt – Docker Compose for NestJS
+## Cursor Prompt – Docker Compose for NestJS
 Rules:
 * Compose file must use version `"3.9"`
 * Must include services like:
@@ -349,3 +363,73 @@ Rules:
 * Logs must be in JSON format if possible
 * Use `profiles:` to separate worker jobs, migrations, admin tools
 * No Windows-specific paths — must run on Linux server
+
+## .cursorignore 
+ 
+* Add ignore files for cursor
+
+## .cursorrules
+
+```
+{
+    "rules": [
+        {
+            "pattern": "**/*.ts",
+            "instructions": [
+                "Before writing any code, ALWAYS read /docs/architecture.md.",
+                "Follow the NestJS production modular monolithic architecture strictly.",
+                "Ensure the code aligns with required folder structure, naming conventions, and layering rules.",
+                "Controllers must handle routing only.",
+                "Services must contain business logic only and must not contain DB queries.",
+                "Repositories must contain all database operations.",
+                "All environment usage must go through ConfigModule, never process.env.",
+                "DTOs must always use class-validator + class-transformer.",
+                "Create files only in the appropriate module folder as defined in architecture.md.",
+                "If the user asks for something that violates the architecture, STOP and warn them."
+            ]
+        },
+        {
+            "pattern": "src/modules/**",
+            "instructions": [
+                "Each module must contain: controller, service, module, dto/, repository/, entities/, interfaces/, constants file.",
+                "Use PascalCase for classes, kebab-case for files, camelCase for variables.",
+                "When generating new modules, auto-create the folder structure: dto/, repository/, entities/, interfaces/."
+            ]
+        },
+        {
+            "pattern": "src/config/**",
+            "instructions": [
+                "Ensure environment variable validation is consistent with validation.schema.ts.",
+                "Expose configuration only via ConfigService.",
+                "Never hardcode environment values inside the code."
+            ]
+        },
+        {
+            "pattern": "src/jobs/**",
+            "instructions": [
+                "Queue definitions must be in queues/, processors in processors/.",
+                "Services enqueue jobs; processors handle job logic."
+            ]
+        },
+        {
+            "pattern": "src/integrations/**",
+            "instructions": [
+                "External service integrations must be isolated.",
+                "Never mix external service code inside modules.",
+                "Use provider-based integration patterns."
+            ]
+        }
+    ],
+    "prompts": [
+        {
+            "name": "architecture_guard",
+            "prompt": "Before writing any code, you MUST check the contents of /docs/architecture.md. If the request violates the architecture, warn the user and rewrite the solution in a compliant way."
+        },
+        {
+            "name": "create_module",
+            "prompt": "When asked to create a new NestJS module, automatically generate the folder structure: src/modules/<name>/{dto,entities,repository,interfaces}/ and include <name>.module.ts, <name>.service.ts, <name>.controller.ts, <name>.constants.ts. Use production ready NestJS style."
+        }
+    ]
+}
+
+```
