@@ -1,38 +1,63 @@
-# create nestjs modules
+# Create New NestJS Module
 
-Create module wise nestjs features
-every features will be treated as modules
-creating nestjs module folder and naming
+## Input
 
-Every feature module MUST follow this structure:
+<module-name> = the feature/module name in lowercase with dashes (e.g. user, order-history, product-review)
 
-```
-src/modules/[feature-name]/
-├── [feature-name].module.ts          # Module definition
-├── [feature-name].controller.ts       # HTTP endpoints
-├── [feature-name].service.ts          # Business logic
-├── [feature-name].constants.ts        # Module constants
-├── dto/                               # Data Transfer Objects
-│   ├── create-[feature-name].dto.ts
-│   ├── update-[feature-name].dto.ts
-│   ├── [feature-name]-query.dto.ts
-│   └── [feature-name]-response.dto.ts
-├── entities/                          # TypeORM entities
-│   └── [feature-name].entity.ts
-├── repository/                        # Data access layer
-│   ├── [feature-name].repository.ts
-│   └── interfaces/
-│       └── [feature-name]-repository.interface.ts
-├── interfaces/                       # Module interfaces
-│   └── [feature-name].interface.ts
-└── [feature-name].spec.ts             # Unit tests
-```
+## Rules
 
-### Files and Folders
+- Create the module inside: src/<module-name>/
+- Use kebab-case for files.
+- Use PascalCase for classes.
+- Use camelCase for variables.
+- Generate all folder and file structures exactly as defined below.
+- Module name must dynamically replace `<module-name>` everywhere.
 
-- **Files:** kebab-case (e.g., `tender.service.ts`, `create-tender.dto.ts`)
-- **Folders:** kebab-case (e.g., `dto/`, `entities/`)
+## Folder Structure to Generate
 
-### Log changes 
+src/<module-name>/
+├── <module-name>.module.ts
+├── controllers/
+│ └── <module-name>.controller.ts
+├── services/
+│ ├── create-<module-name>.ts
+│ ├── get-<module-name>.ts
+│ ├── getAll-<module-name>.ts
+│ ├── update-<module-name>.ts
+│ └── delete-<module-name>.ts
+├── dto/
+│ ├── create-<module-name>.dto.ts
+│ ├── get-<module-name>.dto.ts
+│ ├── getAll-<module-name>.dto.ts
+│ ├── update-<module-name>.dto.ts
+│ └── delete-<module-name>.dto.ts
+├── entities/
+│ └── <module-name>.entity.ts
+└── repositories/
+└── <module-name>.repositories.ts
 
-- create CHANGELOG.md and preview the changes.
+## Tasks to Perform
+
+1. Create the folder structure.
+2. Generate empty boilerplate code in each file.
+3. Create the module file with imports + provider configuration.
+4. Ensure service files export a class named like:
+   - Create<PascalModuleName>Service
+   - Get<PascalModuleName>Service
+   - GetAll<PascalModuleName>Service
+   - Update<PascalModuleName>Service
+   - Delete<PascalModuleName>Service
+5. For DTOs:
+   - Create<PascalModuleName>Dto
+   - Get<PascalModuleName>Dto
+   - GetAll<PascalModuleName>Dto
+   - Update<PascalModuleName>Dto
+   - Delete<PascalModuleName>Dto
+6. For Entity:
+   - <PascalModuleName>Entity
+7. For Repository:
+   - <PascalModuleName>Repository
+
+## Output
+
+Generate full folder + file structure + boilerplate content for the module: <module-name>.
